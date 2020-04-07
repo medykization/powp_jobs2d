@@ -7,15 +7,21 @@ public class DriverAdapter extends AbstractDriver {
 
     private Job2dDriver job2dDriver;
 
-    public DriverAdapter(int x, int y, Job2dDriver job2dDriver) {
-        super(x, y);
+    public DriverAdapter(Job2dDriver job2dDriver) {
+        super(0, 0);
         this.job2dDriver = job2dDriver;
     }
 
 
     @Override
     public void operateTo(int x, int y) {
+        job2dDriver.setPosition(getX(), getY());
         job2dDriver.operateTo(x,y);
         setPosition(x,y);
+    }
+
+    @Override
+    public String toString() {
+        return "Test";
     }
 }
