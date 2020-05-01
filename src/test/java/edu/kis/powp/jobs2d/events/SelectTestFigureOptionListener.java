@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.command.OperateToCommand;
-import edu.kis.powp.jobs2d.command.SetPositionCommand;
+import edu.kis.powp.jobs2d.command.ComplexCommand;
+import edu.kis.powp.jobs2d.command.FiguresFactory;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.drivers.adapter.DriverAdapter;
 import edu.kis.powp.jobs2d.magicpresets.FiguresJane;
@@ -14,36 +14,33 @@ import edu.kis.powp.jobs2d.magicpresets.FiguresJoe;
 public class SelectTestFigureOptionListener implements ActionListener {
 
 	private DriverManager driverManager;
+	private FigureTypeEnum type;
 
-	public SelectTestFigureOptionListener(DriverManager driverManager) {
+	public SelectTestFigureOptionListener(DriverManager driverManager, FigureTypeEnum type) {
 		this.driverManager = driverManager;
+		this.type = type;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-		String option = e.getActionCommand();
-		switch (option) {
-			case "Figure Joe 1":
-				FiguresJoe.figureScript1(driverManager.getCurrentDriver());
+		Job2dDriver driver = driverManager.getCurrentDriver();
+		switch (type) {
+			case FIGURE_JOE_1:
+				FiguresJoe.figureScript1(driver);
 				break;
-			case "Figure Joe 2":
-				FiguresJoe.figureScript2(driverManager.getCurrentDriver());
+			case FIGURE_JOE_2:
+				FiguresJoe.figureScript2(driver);
 				break;
-			case "Figure Jane 1":
-				FiguresJane.figureScript(new DriverAdapter(driverManager.getCurrentDriver()));
+			case  FIGURE_JANE_1:
+				FiguresJane.figureScript(new DriverAdapter(driver));
 				break;
-			case "Command Test Figure":
-				Job2dDriver driver = driverManager.getCurrentDriver();
-				SetPositionCommand command = new SetPositionCommand(50,50);
-				command.execute(driver);
-				OperateToCommand operateTo = new OperateToCommand();
-				operateTo.setXY(100, 50);
-				operateTo.execute(driver);
-				operateTo.setXY(75, 75);
-				operateTo.execute(driver);
-				operateTo.setXY(50,50);
-				operateTo.execute(driver);
+			case RECTANGLE:
+				ComplexCommand rectangle = FiguresFactory.getRectangle();
+				rectangle.execute(driver);
+				break;
+			case TRIANGLE:
+				ComplexCommand triangle = FiguresFactory.getTriangle();
+				triangle.execute(driver);
 				break;
 			default:
 				System.out.println("error wrong option");
