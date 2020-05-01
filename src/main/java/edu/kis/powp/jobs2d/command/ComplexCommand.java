@@ -12,8 +12,8 @@ public class ComplexCommand implements DriverCommand {
         this.commands = commandList;
     }
 
-    public ComplexCommand(DriverCommand... commands) {
-        this(Arrays.asList(commands));
+    public ComplexCommand(DriverCommand... commandsArray) {
+        this(Arrays.asList(commandsArray));
     }
 
     @Override
